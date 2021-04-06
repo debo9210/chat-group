@@ -1,12 +1,15 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const passport = require('passport');
 const colors = require('colors');
+
+const usersRoutes = require('./routes/api/users');
+const imageUpload = require('./utils/imageUpload').router;
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 //database connection
 const DB = require('./config/keys').mongoURI;
@@ -19,9 +22,19 @@ mongoose
   .then(() => console.log('Connected to database'.random))
   .catch((err) => console.log(err));
 
+//passport middleware
+app.use(passport.initialize());
+
+//passport config
+require('./config/passport')(passport);
+
 app.get('/', (req, res) => {
   res.send('Welcome to chat group backend');
 });
+
+// use routes
+app.use('/api/users', usersRoutes);
+app.use('/user/profile-image', imageUpload);
 
 const port = process.env.PORT || 5000;
 

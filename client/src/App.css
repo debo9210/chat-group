@@ -1,0 +1,173 @@
+.App {
+  /* text-align: center; */
+}
+
+.App h1 {
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 40px;
+}
+
+.Auth {
+  width: 30%;
+  margin: 0 auto;
+}
+
+.AuthContainer {
+  border: 1px solid #bdbdbd;
+  border-radius: 18px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.LoginSwitchContainer p {
+  font-size: 12px;
+  color: #828282;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.LoginSwitchContainer p span {
+  color: #2f80ed;
+  cursor: pointer;
+  margin-left: 3px;
+}
+
+.AuthHeading {
+  text-align: center;
+  margin: 30px 0 20px 0;
+}
+
+.InputGroupContainer,
+.AddPhotoContainer {
+  /* border: 1px solid cyan; */
+  width: 70%;
+  margin: 0 auto;
+}
+
+.InputGroup {
+  border: 1px solid #bdbdbd;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  margin: 3px 0 20px 0;
+  height: 38px;
+}
+
+.InputGroup input {
+  height: 100%;
+  width: 90%;
+  border: none;
+  outline: none;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  background: transparent;
+  color: #eee;
+  font-size: 16px;
+}
+
+.InputGroup input::placeholder {
+  color: #828282;
+}
+
+.InputGroup i {
+  width: 10%;
+  font-size: 20px;
+  color: #828282;
+  margin-left: 10px;
+}
+
+.AddPhotoContainer {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.AddPhoto {
+  display: flex;
+  align-items: center;
+  border: 1px solid #bdbdbd;
+  width: 42px;
+  height: 42px;
+  border-radius: 5px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  /* width: 40%; */
+}
+
+.AddPhoto i {
+  margin-left: 10px;
+  font-size: 20px;
+  opacity: 0.5;
+}
+
+.PhotoLabel {
+  /* border: 1px solid cyan; */
+  margin-left: 20px;
+  border-radius: 5px;
+  width: 60%;
+}
+
+.PhotoLabel label {
+  cursor: pointer;
+  margin: 5px 0 0 0 0;
+  padding: 0;
+  /* border: 1px solid yellow; */
+  /* Style as you please, it will become the visible UI component. */
+}
+
+.ButtonContainer {
+  /* border: 1px solid #bdbdbd; */
+  width: 70%;
+  margin: 0 auto 30px auto;
+}
+
+.ButtonContainer button {
+  width: 100%;
+  height: 35px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  color: #fff;
+  background: #885393;
+  text-transform: capitalize;
+  font-size: 16px;
+  cursor: pointer;
+  /* border: 1px solid yellow; */
+  /* width: 285px; */
+}
+
+.SocialLoginContainer {
+  /* border: 1px solid orange; */
+  width: 50%;
+  margin: 0 auto;
+}
+
+.SocialLoginContainer p {
+  font-size: 12px;
+  color: #828282;
+  margin: 0;
+}
+
+.SocialLogin {
+  /* border: 1px solid cyan; */
+  margin: 15px 0 30px 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.SocialLogin img {
+  width: 40px;
+  cursor: pointer;
+}
+
+.CopyRightContainer {
+  /* border: 1px solid green; */
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  color: #828282;
+  font-size: 14px;
+}
