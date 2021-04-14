@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'production') {
   WELCOME_PAGE_URL = '';
 } else {
   CLIENT_HOME_PAGE_URL = 'http://localhost:3000';
-  WELCOME_PAGE_URL = 'http://localhost:3000/welcome';
+  WELCOME_PAGE_URL = `http://localhost:3000/chat-portal`;
 }
 
 //social login
@@ -47,6 +47,7 @@ router.get(
     // successRedirect: SOCIAL_LOGIN_URL,
   }),
   (req, res) => {
+    // res.json({ user: req.user.id });
     res.redirect(WELCOME_PAGE_URL);
   }
 );

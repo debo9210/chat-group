@@ -8,7 +8,11 @@ import FacebookLogo from '../svg/Facebook.svg';
 import TwitterLogo from '../svg/Twitter.svg';
 // eslint-disable-next-line
 import GithubLogo from '../svg/Github.svg';
-import { registerUser, loginUser } from '../redux/actions/authAction';
+import {
+  registerUser,
+  loginUser,
+  socialConnection,
+} from '../redux/actions/authAction';
 import { CREATE_USER_SUCCESS } from '../redux/constants';
 
 const AuthComponent = () => {
@@ -88,6 +92,7 @@ const AuthComponent = () => {
     };
 
     if (e.target.textContent === 'log in') {
+      dispatch(socialConnection());
       dispatch(loginUser(userData));
     }
   };
@@ -132,7 +137,7 @@ const AuthComponent = () => {
         type: CREATE_USER_SUCCESS,
         payload: false,
       });
-      history.push('/welcome');
+      history.push('/chat-portal');
     }
   }, [success, isAuthenticated, dispatch, history]);
 

@@ -12,6 +12,7 @@ const validateRegisterInput = require('../validation/registerValidation');
 
 const registerUser = (req, res) => {
   upload(req, res, function (err) {
+    // console.log(req.body);
     const { errors, isValid } = validateRegisterInput(req.body);
     if (err instanceof multer.MulterError) {
       // An error occurred when uploading
@@ -52,6 +53,7 @@ const registerUser = (req, res) => {
           email: req.body.email,
           password: req.body.password,
           profileImage: profileImage,
+          channelJoined: ['welcome'],
         });
 
         // hash user password and save to database

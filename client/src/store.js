@@ -5,12 +5,20 @@ import { errorsReducer } from './redux/reducers/errorReducer';
 import {
   registerUserReducer,
   currentUserReducer,
+  socialLoginReducer,
 } from './redux/reducers/authReducers';
+import {
+  joinChannelReducer,
+  channelMembersReducer,
+} from './redux/reducers/joinChannelReducer';
 
 const reducers = combineReducers({
   errorsObj: errorsReducer,
   registerUser: registerUserReducer,
   currentUser: currentUserReducer,
+  socialConnect: socialLoginReducer,
+  joinChannel: joinChannelReducer,
+  channelMembers: channelMembersReducer,
 });
 
 const initialState = {};

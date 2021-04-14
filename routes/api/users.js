@@ -6,6 +6,11 @@ const router = express.Router();
 const registerUser = require('../../controllers/usersRegister');
 const loginUser = require('../../controllers/usersLogin').loginUser;
 const currentUser = require('../../controllers/usersLogin').currentUser;
+
+const joinChannel = require('../../controllers/userJoinChannel').joinChannel;
+const channelMembers = require('../../controllers/userJoinChannel')
+  .channelMembers;
+
 // @Route POST api/users/register
 // @Desc route to register users
 // @Access Public
@@ -15,6 +20,14 @@ router.post('/register', registerUser);
 // @Desc route to login user / return jwt token
 // @Access Public
 router.post('/login', loginUser);
+
+// @Route POST api/users/join-channel
+// @Desc api for users to join channel
+router.post('/join-channel', joinChannel);
+
+// @Route GET api/users/channel-members
+// @Desc api to get channel members
+router.get('/channel-members', channelMembers);
 
 // @Route GET api/users/current
 // @Desc Return current user route

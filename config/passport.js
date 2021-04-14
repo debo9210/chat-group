@@ -73,7 +73,7 @@ module.exports = (passport) => {
         passReqToCallback: true,
       },
       (req, accessToken, refreshToken, profile, done) => {
-        // req.session.accessToken = accessToken;
+        req.session.accessToken = accessToken;
         User.findOne({ socialID: profile.id }).then((user) => {
           if (user) {
             //update user in the database
@@ -98,6 +98,7 @@ module.exports = (passport) => {
               profileImage: profile.picture,
               email: profile.email,
               socialName: profile.provider,
+              channelJoined: ['welcome'],
             });
             newUser
               .save()
@@ -120,7 +121,7 @@ module.exports = (passport) => {
         passReqToCallback: true,
       },
       (req, accessToken, refreshToken, profile, done) => {
-        // req.session.accessToken = accessToken;
+        req.session.accessToken = accessToken;
         User.findOne({ socialID: profile.id }).then((user) => {
           if (user) {
             //update user in database
@@ -146,6 +147,7 @@ module.exports = (passport) => {
               profileImage: profile.photos[0].value,
               email: profile.emails[0].value,
               socialName: profile.provider,
+              channelJoined: ['welcome'],
             });
             newUser
               .save()

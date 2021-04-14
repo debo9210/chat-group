@@ -1,0 +1,414 @@
+.ChatPortalContainer {
+  border: 1px solid orange;
+  display: flex;
+  width: 100vw;
+  height: 100%;
+  height: 100vh;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.ChannelsContainer {
+  width: 20%;
+  /* height: 100%; */
+  /* height: 100vh; */
+  border: 1px solid cyan;
+  background: #120f13;
+  position: relative;
+  /* overflow-x: hidden; */
+  /* overflow-y: hidden; */
+  /* overflow-y: auto; */
+}
+
+.ChannelsHeadingContainer {
+  /* border: 1px solid tomato; */
+  border-bottom: 2px solid rgb(7, 7, 7);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.AllChannelsContainer {
+  justify-content: unset;
+}
+
+.ChannelsHeading {
+  margin: 13px 0 13px 25px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 25px;
+  /* identical to box height */
+  letter-spacing: -0.025em;
+  text-transform: capitalize;
+}
+
+.AllChannelHeading {
+  margin-left: 8px;
+  text-transform: unset;
+  letter-spacing: -0.035em;
+  font-size: 18px;
+}
+
+.AddIcon {
+  color: #f2f2f2;
+  border-radius: 8px;
+  margin-right: 25px;
+  padding: 2px;
+  background: #252329;
+  cursor: pointer;
+}
+
+.ArrowBackIcon {
+  font-size: 20px;
+  color: #f2f2f2;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.ChannelDetailsContainer {
+  /* border: 1px solid red; */
+  width: 82%;
+  height: 80%;
+  margin: 15px auto 0 auto;
+}
+
+.SearchInputGroup {
+  /* border: 1px solid orange; */
+  display: flex;
+  align-items: center;
+  height: 38px;
+  background: #3c393f;
+  border-radius: 8px;
+}
+
+.SearchInputGroup i {
+  width: 15%;
+  margin-left: 5px;
+}
+
+.SearchInputGroup input {
+  width: 85%;
+  height: 100%;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  outline: none;
+  border: none;
+  background: transparent;
+  color: #e0e0e0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.SearchInputGroup input::placeholder {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  /* identical to box height */
+  letter-spacing: -0.035em;
+  text-transform: capitalize;
+  color: #828282;
+}
+
+.ChannelDetails {
+  /* border: 1px solid yellow; */
+  margin-top: 20px;
+  height: 87%;
+  overflow-y: auto;
+}
+
+.ChannelDetails::-webkit-scrollbar-track,
+.ChannelMembers::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  /* border-radius: 4px; */
+  background-color: #f5f5f5;
+}
+
+.ChannelDetails::-webkit-scrollbar,
+.ChannelMembers::-webkit-scrollbar {
+  width: 4px;
+  background-color: #f5f5f5;
+}
+
+.ChannelDetails::-webkit-scrollbar-thumb,
+.ChannelMembers::-webkit-scrollbar-thumb {
+  /* border-radius: 10px; */
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555;
+}
+
+.ChannelDetails ul {
+  /* border: 1px solid pink; */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ChannelDetails li {
+  margin: 20px 0;
+  padding: 0;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 25px;
+  /* identical to box height */
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: #bdbdbd;
+  cursor: pointer;
+}
+
+.NameAbbr {
+  display: inline-block;
+  /* border: 1px solid orange; */
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  background: #252329;
+  border-radius: 5px;
+  /* padding: 3px; */
+  padding-right: 2px;
+  margin-right: 5px;
+}
+
+.ChannelNameHeading {
+  /* border: 1px solid orange; */
+  margin: 0;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 25px;
+  /* identical to box height */
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+
+.ChannelAbout {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.035em;
+  margin-bottom: 20px;
+}
+
+.ChannelMembers {
+  /* border: 1px solid yellow; */
+  margin-top: 10px;
+  height: 64%;
+  overflow-y: auto;
+}
+
+.Members {
+  display: flex;
+  align-items: center;
+  /* border: 1px solid pink; */
+  margin-bottom: 10px;
+}
+
+.MemberPhoto {
+  width: 35px;
+  height: 35px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 5px;
+  margin-right: 15px;
+}
+
+.MemberName {
+  margin: 0;
+}
+
+.UserMenu {
+  display: none;
+  position: absolute;
+  bottom: 40px;
+  left: 125px;
+  z-index: 2;
+  width: 50%;
+  background: #252329;
+  border: 1px solid #3c393f;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+.UserMenu hr {
+  width: 80%;
+  border: 1px solid #3c393f;
+  margin: 13px auto;
+}
+
+.MenuOption {
+  /* border: 1px solid pink; */
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  width: 90%;
+  margin: 8px auto;
+  padding: 5px 5px;
+}
+
+.MenuOption:hover {
+  background: #3c393f;
+  cursor: pointer;
+}
+
+.MenuOption p {
+  margin: 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: -0.035em;
+  text-transform: capitalize;
+  margin-left: 5px;
+}
+
+.MenuOption i {
+  font-size: 18px;
+}
+
+.MenuLogout i,
+.MenuLogout p {
+  color: #eb5757;
+}
+
+.UserDisplayContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border: 1px solid orange; */
+  background: #0b090c;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.ProfilePhoto {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 10px -40px 10px 25px;
+}
+
+.UserName {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 25px;
+  /* identical to box height */
+  letter-spacing: -0.035em;
+  color: #828282;
+}
+
+.ArrowDownIcon {
+  /* border: 1px solid red; */
+  margin-right: 25px;
+  color: #bdbdbd;
+  cursor: pointer;
+}
+
+.ChatDisplayContainer {
+  border: 1px solid yellow;
+  width: 80%;
+}
+
+.CreateChannelContainer {
+  /* border: 1px solid cyan; */
+  display: none;
+  position: absolute;
+  width: 456.02px;
+  /* height: 309.38px; */
+  left: 321.96px;
+  top: 200.74px;
+  z-index: 3;
+  background: #120f13;
+  border-radius: 18px;
+}
+
+.CreateChannel {
+  width: 87%;
+  margin: 0 auto;
+}
+
+.CreateChannel h4 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 25px;
+  /* identical to box height */
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  color: #f2f2f2;
+}
+
+.CreateChannelGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.CreateChannelGroup input,
+.CreateChannelGroup textarea {
+  background: #3c393f;
+  border-radius: 6px;
+  height: 35px;
+  border: none;
+  outline: none;
+  padding-left: 10px;
+  margin-bottom: 15px;
+  color: #e0e0e0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.CreateChannelGroup textarea {
+  font-family: 'Noto Sans', sans-serif;
+  height: 90px;
+  resize: none;
+}
+
+.CreateChannelGroup input::placeholder,
+.CreateChannelGroup textarea::placeholder {
+  font-family: 'Noto Sans', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 25px;
+  /* identical to box height */
+  letter-spacing: -0.035em;
+  color: #828282;
+}
+
+.CreateChannelBtn {
+  /* border: 1px solid peru; */
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.CreateChannelBtn button {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 25px;
+  padding: 2px 25px;
+  text-transform: capitalize;
+  /* identical to box height */
+  letter-spacing: -0.035em;
+  color: #f2f2f2;
+  background: #2f80ed;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}

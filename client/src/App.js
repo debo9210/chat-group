@@ -4,9 +4,10 @@ import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './redux/actions/authAction';
 import AuthComponent from './components/AuthComponent';
 import './App.css';
-import WelcomeChannel from './components/WelcomeChannel';
+import ChatPortal from './components/ChatPortal';
 import store from './store';
 
+const currentTime = Date.now() / 1000;
 //check for token
 if (localStorage.jwtToken) {
   //set token to header auth
@@ -19,11 +20,22 @@ if (localStorage.jwtToken) {
   store.dispatch(setCurrentUser(decoded));
 
   //check for expired token
-  const currentTime = Date.now() / 1000;
-
   if (decoded.exp < currentTime) {
     //logout user
     store.dispatch(logoutUser());
+    window.location.href = '/';
+  }
+} else if (localStorage.socialAccessToken) {
+  //set socialAccess token to header auth
+  setAuthToken(localStorage.socialAccessToken);
+
+  //set user and isAuthenticated
+  const userDetails = JSON.parse(localStorage.socialUserDetails);
+  store.dispatch(setCurrentUser(userDetails));
+
+  if (userDetails.exp < currentTime) {
+    //logout user
+    store.dispatch(logoutUser(userDetails.socialName));
     window.location.href = '/';
   }
 }
@@ -33,7 +45,7 @@ function App() {
     <div className='App'>
       <Router>
         <Route path='/' exact component={AuthComponent} />
-        <Route path='/welcome' exact component={WelcomeChannel} />
+        <Route path='/chat-portal' exact component={ChatPortal} />
       </Router>
     </div>
   );

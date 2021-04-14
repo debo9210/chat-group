@@ -22,6 +22,7 @@ const UserSchema = new Schema({
   socialName: {
     type: String,
   },
+  channelJoined: [],
   createdAt: {
     type: Date,
     default: Date.now,

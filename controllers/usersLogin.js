@@ -66,12 +66,12 @@ const currentUser = (req, res) => {
 
 // social sign in
 const isSignedIn = async (req, res, next) => {
-  // console.log(req.user.id);
+  // console.log(req.user);
   const user = await User.findOne({ socialID: req.user.id });
   req.user = user;
   const userDetails = {
     user: req.user,
-    // userAccess: req.session.accessToken,
+    accessToken: req.session.accessToken,
   };
   res.status(200).json(userDetails);
   next();
