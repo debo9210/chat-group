@@ -75,9 +75,9 @@ app.use(passport.session());
 //passport config
 require('./config/passport')(passport);
 
-app.get('/', (req, res) => {
-  res.send('Welcome to chat group backend');
-});
+// app.get('/', (req, res) => {
+//   res.send('Welcome to chat group backend');
+// });
 
 // use routes
 app.use('/api/users', usersRoutes);
