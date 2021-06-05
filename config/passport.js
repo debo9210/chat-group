@@ -85,6 +85,9 @@ module.exports = (passport) => {
               socialName: profile.provider,
             };
 
+            user.onlineStatus = true;
+            user.save();
+
             User.findOneAndUpdate(
               { user: user._id },
               { $set: updateUser },
@@ -99,6 +102,7 @@ module.exports = (passport) => {
               email: profile.email,
               socialName: profile.provider,
               channelJoined: ['welcome'],
+              onlineStatus: true,
             });
             newUser
               .save()
@@ -133,6 +137,9 @@ module.exports = (passport) => {
               socialName: profile.provider,
             };
 
+            user.onlineStatus = true;
+            user.save();
+
             User.findOneAndUpdate(
               { user: user._id },
               { $set: updateUser },
@@ -148,6 +155,7 @@ module.exports = (passport) => {
               email: profile.emails[0].value,
               socialName: profile.provider,
               channelJoined: ['welcome'],
+              onlineStatus: true,
             });
             newUser
               .save()

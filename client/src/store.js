@@ -10,7 +10,14 @@ import {
 import {
   joinChannelReducer,
   channelMembersReducer,
-} from './redux/reducers/joinChannelReducer';
+  createChannelReducer,
+  getChannelsReducer,
+} from './redux/reducers/channelReducer';
+
+import {
+  saveChatMessageReducer,
+  getChatMessageReducer,
+} from './redux/reducers/chatMessagesReducer';
 
 const reducers = combineReducers({
   errorsObj: errorsReducer,
@@ -19,6 +26,10 @@ const reducers = combineReducers({
   socialConnect: socialLoginReducer,
   joinChannel: joinChannelReducer,
   channelMembers: channelMembersReducer,
+  createChannel: createChannelReducer,
+  getChannels: getChannelsReducer,
+  saveChatMessages: saveChatMessageReducer,
+  chatMessagesArray: getChatMessageReducer,
 });
 
 const initialState = {};

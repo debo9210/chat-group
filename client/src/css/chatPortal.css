@@ -1,5 +1,5 @@
 .ChatPortalContainer {
-  border: 1px solid orange;
+  /* border: 1px solid orange; */
   display: flex;
   width: 100vw;
   height: 100%;
@@ -13,7 +13,7 @@
   width: 20%;
   /* height: 100%; */
   /* height: 100vh; */
-  border: 1px solid cyan;
+  /* border: 1px solid cyan; */
   background: #120f13;
   position: relative;
   /* overflow-x: hidden; */
@@ -122,20 +122,24 @@
 }
 
 .ChannelDetails::-webkit-scrollbar-track,
-.ChannelMembers::-webkit-scrollbar-track {
+.ChannelMembers::-webkit-scrollbar-track,
+.ChatPanelContainer::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   /* border-radius: 4px; */
-  background-color: #f5f5f5;
+  /* background-color: #f5f5f5; */
 }
 
 .ChannelDetails::-webkit-scrollbar,
-.ChannelMembers::-webkit-scrollbar {
+.ChannelMembers::-webkit-scrollbar,
+.ChatPanelContainer::-webkit-scrollbar {
   width: 4px;
-  background-color: #f5f5f5;
+  /* background-color: #f5f5f5; */
+  /* background-color: transparent; */
 }
 
 .ChannelDetails::-webkit-scrollbar-thumb,
-.ChannelMembers::-webkit-scrollbar-thumb {
+.ChannelMembers::-webkit-scrollbar-thumb,
+.ChatPanelContainer::-webkit-scrollbar-thumb {
   /* border-radius: 10px; */
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #555;
@@ -175,6 +179,11 @@
   margin-right: 5px;
 }
 
+.ChannelName {
+  display: inline-block;
+  width: 75%;
+}
+
 .ChannelNameHeading {
   /* border: 1px solid orange; */
   margin: 0;
@@ -198,6 +207,7 @@
 
 .ChannelMembers {
   /* border: 1px solid yellow; */
+  padding-top: 10px;
   margin-top: 10px;
   height: 64%;
   overflow-y: auto;
@@ -208,6 +218,16 @@
   align-items: center;
   /* border: 1px solid pink; */
   margin-bottom: 10px;
+}
+
+.statusLogo {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  position: relative;
+  bottom: 16px;
+  left: 37px;
+  z-index: 1;
 }
 
 .MemberPhoto {
@@ -317,11 +337,6 @@
   cursor: pointer;
 }
 
-.ChatDisplayContainer {
-  border: 1px solid yellow;
-  width: 80%;
-}
-
 .CreateChannelContainer {
   /* border: 1px solid cyan; */
   display: none;
@@ -330,9 +345,17 @@
   /* height: 309.38px; */
   left: 321.96px;
   top: 200.74px;
-  z-index: 3;
+  /* z-index: 3; */
   background: #120f13;
   border-radius: 18px;
+}
+
+.CreateChannelLoader {
+  position: absolute;
+  width: 456.02px;
+  /* height: 309.38px; */
+  left: 321.96px;
+  top: 200.74px;
 }
 
 .CreateChannel {
@@ -356,6 +379,11 @@
   flex-direction: column;
 }
 
+.CreateChannelGroup div {
+  width: 100%;
+  /* border: 1px solid red; */
+}
+
 .CreateChannelGroup input,
 .CreateChannelGroup textarea {
   background: #3c393f;
@@ -369,6 +397,7 @@
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
+  width: 100%;
 }
 
 .CreateChannelGroup textarea {
@@ -411,4 +440,307 @@
   border: none;
   outline: none;
   cursor: pointer;
+}
+
+.ChatDisplayContainer {
+  /* border: 1px solid yellow; */
+  width: 80%;
+  position: relative;
+}
+
+.ChatDisplayHeadingContainer {
+  /* border: 1px solid peru; */
+  border-bottom: 2px solid rgb(7, 7, 7);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.ChatDisplayHeading {
+  /* border: 1px solid orange; */
+  display: flex;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.MenuIcon {
+  display: none;
+}
+
+.ChatPanelContainer {
+  /* border: 1px solid orange; */
+  width: 90%;
+  height: 78%;
+  margin: 0px auto 20px auto;
+  overflow-y: auto;
+}
+
+.InputMessageGroup {
+  /* position: absolute; */
+  /* border: 1px solid orange; */
+  display: flex;
+  width: 90%;
+  height: 45px;
+  margin: auto;
+  background: #3c393f;
+  border-radius: 8px;
+}
+
+.InputMessageGroup input {
+  width: 95%;
+  border: none;
+  outline: none;
+  background: transparent;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  padding-left: 15px;
+  color: #e0e0e0;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+.InputMessageGroup input::placeholder {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  /* identical to box height */
+  letter-spacing: -0.035em;
+  color: #828282;
+}
+
+.InputMessageGroup button {
+  width: 5%;
+  background: #2f80ed;
+  color: #fff;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  margin: 3px 5px 3px 0;
+  cursor: pointer;
+}
+
+.InputMessageGroup i {
+  margin-left: 5px;
+  transform: rotate(-30deg);
+}
+
+.ChatMonth {
+  /* border: 1px solid cyan; */
+}
+
+.Month {
+  display: flex;
+  flex-direction: row;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -0.035em;
+  color: #828282;
+  margin: 20px 0;
+}
+.Month:before,
+.Month:after {
+  content: '';
+  flex: 1 1;
+  border-bottom: 1px solid;
+  margin: auto;
+}
+.Month:before {
+  margin-right: 15px;
+}
+.Month:after {
+  margin-left: 15px;
+}
+
+.ChatMessages {
+  border: 1px solid cyan;
+}
+
+.UserMessageContainer {
+  /* border: 1px solid orange; */
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+.UserMessage {
+  /* border: 1px solid blue; */
+  width: 94%;
+  /* margin-left: 10px; */
+}
+
+.UserPhoto {
+  /* border: 1px solid red; */
+  width: 4%;
+  height: 38px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* margin-right: 25px; */
+  border-radius: 4px;
+}
+
+.ChatMsg {
+  /* border: 1px solid pink; */
+  margin: 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 25px;
+  letter-spacing: -0.035em;
+}
+
+.ChatTime {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 19px;
+  /* identical to box height */
+  letter-spacing: -0.035em;
+  color: #828282;
+  margin-left: 10px;
+}
+
+.MobileMenu {
+  display: none;
+}
+
+.CloseIcon {
+  display: none;
+}
+
+/* mobile screen responsiveness */
+@media only screen and (min-width: 320px) and (max-width: 414px) {
+  .ChannelsContainer {
+    border: 1px solid red;
+    display: none;
+    z-index: 2;
+  }
+
+  .ChatDisplayContainer {
+    width: 100%;
+  }
+
+  .ChatPanelContainer,
+  .InputMessageGroup {
+    width: 92%;
+  }
+
+  .ChatDisplayHeading {
+    /* border: 1px solid peru; */
+    width: 95%;
+  }
+
+  .MenuIcon {
+    /* border: 1px solid orange; */
+    display: block;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+
+  .ChannelsHeading {
+    /* border: 1px solid red; */
+    width: 80%;
+  }
+
+  .UserPhoto {
+    width: 12%;
+  }
+
+  .UserMessage {
+    width: 84%;
+  }
+
+  .InputMessageGroup input {
+    width: 85%;
+  }
+
+  .InputMessageGroup button {
+    width: 15%;
+  }
+
+  .MobileMenu {
+    /* border: 1px solid orange; */
+    background: #120f13;
+    position: absolute;
+    z-index: 2;
+    width: 86%;
+    height: 100%;
+    /* right: 86%; */
+    /* transform: translateX(50%); */
+    animation-name: slide-from-left;
+    animation-duration: 2s;
+  }
+
+  .CloseIcon {
+    /* margin-left: 180px; */
+    padding: 5px;
+    background: #120f13;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .CreateChannelContainer {
+    width: 306.02px;
+    left: 31.96px;
+    top: 200.74px;
+  }
+
+  /* .UserMessageContainer {
+    border: 1px solid pink;
+  } */
+
+  @keyframes slide-from-left {
+    from {
+      right: 100%;
+    }
+    to {
+      right: 14%;
+    }
+  }
+}
+
+/* ipad screen responsiveness */
+@media only screen and (min-width: 415px) and (max-width: 768px) {
+  .ChannelsContainer {
+    width: 25%;
+  }
+
+  .ChatDisplayContainer {
+    width: 75%;
+  }
+}
+
+@media only screen and (min-width: 415px) and (max-width: 1024px) {
+  .ProfilePhoto {
+    margin-right: 7px;
+  }
+
+  .ArrowDownIcon {
+    margin-right: 20px;
+  }
+
+  .ChatPanelContainer {
+    height: 82%;
+  }
+
+  .InputMessageGroup input {
+    width: 90%;
+  }
+
+  .InputMessageGroup button {
+    width: 10%;
+  }
+
+  .UserMessage {
+    width: 92%;
+  }
+
+  .UserPhoto {
+    width: 6%;
+  }
 }

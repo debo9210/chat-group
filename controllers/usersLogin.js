@@ -32,12 +32,20 @@ const loginUser = (req, res) => {
       if (isMatched) {
         //Matched
 
+        //update user online status
+        // User.findOneAndUpdate({ email }, { onlineStatus: true }, { new: true });
+
+        user.onlineStatus = true;
+        user.save();
+
         //create jwt payload
         const payload = {
           id: user._id,
           email: user.email,
           name: user.name,
           profilePhoto: user.profileImage,
+          onlineStatus: user.onlineStatus,
+          channelJoined: user.channelJoined,
         };
 
         //sign token
@@ -55,6 +63,17 @@ const loginUser = (req, res) => {
   });
 };
 
+const updateOnlineStatus = (req, res) => {
+  User.findById(req.params.id)
+    .then((user) => {
+      if (user) {
+        user.onlineStatus = false;
+        user.save();
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
 const currentUser = (req, res) => {
   res.json({
     id: req.user.id,
@@ -67,13 +86,16 @@ const currentUser = (req, res) => {
 // social sign in
 const isSignedIn = async (req, res, next) => {
   // console.log(req.user);
-  const user = await User.findOne({ socialID: req.user.id });
-  req.user = user;
-  const userDetails = {
-    user: req.user,
-    accessToken: req.session.accessToken,
-  };
-  res.status(200).json(userDetails);
+  if (req.user) {
+    const user = await User.findOne({ socialID: req.user.id });
+    req.user = user;
+    const userDetails = {
+      user: req.user,
+      accessToken: req.session.accessToken,
+    };
+    res.status(200).json(userDetails);
+  }
+
   next();
 };
 
@@ -88,4 +110,5 @@ module.exports = {
   currentUser,
   isSignedIn,
   isSignedOut,
+  updateOnlineStatus,
 };

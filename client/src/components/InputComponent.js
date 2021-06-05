@@ -7,6 +7,7 @@ const InputComponent = ({
   placeholder,
   inputHandler,
   errorMsg,
+  name,
 }) => {
   return (
     <div className='InputGroupContainer'>
@@ -23,6 +24,8 @@ const InputComponent = ({
           type={inputType}
           placeholder={placeholder}
           onChange={inputHandler}
+          name={name}
+          autoComplete='on'
         />
       </div>
       <small

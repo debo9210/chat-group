@@ -8,12 +8,8 @@ import FacebookLogo from '../svg/Facebook.svg';
 import TwitterLogo from '../svg/Twitter.svg';
 // eslint-disable-next-line
 import GithubLogo from '../svg/Github.svg';
-import {
-  registerUser,
-  loginUser,
-  socialConnection,
-} from '../redux/actions/authAction';
-import { CREATE_USER_SUCCESS } from '../redux/constants';
+import { registerUser, loginUser } from '../redux/actions/authAction';
+import { CREATE_USER_SUCCESS, SOCIAL_USER } from '../redux/constants';
 
 const AuthComponent = () => {
   const dispatch = useDispatch();
@@ -39,7 +35,7 @@ const AuthComponent = () => {
 
   const registerErrors = useSelector((state) => state.errorsObj);
   const { success } = useSelector((state) => state.registerUser);
-  const { isAuthenticated } = useSelector((state) => state.currentUser);
+  const { isAuthenticated, user } = useSelector((state) => state.currentUser);
 
   // console.log(registerErrors);
 
@@ -75,6 +71,7 @@ const AuthComponent = () => {
 
   const authBtnHandler = (e) => {
     // console.log(e.target.textContent);
+    e.preventDefault();
     const registerFormData = new FormData();
     registerFormData.append('name', userName);
     registerFormData.append('email', email);
@@ -92,12 +89,22 @@ const AuthComponent = () => {
     };
 
     if (e.target.textContent === 'log in') {
-      dispatch(socialConnection());
+      // dispatch(socialConnection());
+
+      // dispatch({
+      //   type: SOCIAL_USER,
+      //   payload: 'not connected',
+      // });
       dispatch(loginUser(userData));
     }
   };
 
   const socialLoginHandler = (e) => {
+    dispatch({
+      type: SOCIAL_USER,
+      payload: 'connected',
+    });
+
     const socialName = e.target.alt.split('/')[3].split('.')[0].toLowerCase();
     const width = 600,
       height = 600;
@@ -137,91 +144,98 @@ const AuthComponent = () => {
         type: CREATE_USER_SUCCESS,
         payload: false,
       });
-      history.push('/chat-portal');
+      history.push(`/chat-portal/${'welcome'}`);
+      // history.push(`/chat-portal`);
     }
-  }, [success, isAuthenticated, dispatch, history]);
+  }, [success, isAuthenticated, dispatch, history, user]);
 
   return (
     <div>
-      <h1>Welcome to Chat App</h1>
+      <h1 className='AuthComponentHeading'>Welcome to Chat App</h1>
       <div className='Auth'>
         <div className='AuthContainer'>
           <h3 className='AuthHeading' ref={authHeadingRef}>
             Log in to your account
           </h3>
-          {showJoin && (
+          <form onSubmit={authBtnHandler}>
+            {showJoin && (
+              <InputComponent
+                inputName='Your name'
+                placeholder='Enter name'
+                inputType='text'
+                iconType='person'
+                errorMsg={registerErrors.name}
+                inputHandler={(e) => setUserName(e.target.value)}
+                name='Name'
+              />
+            )}
+
             <InputComponent
-              inputName='Your name'
-              placeholder='Enter name'
-              inputType='text'
-              iconType='person'
-              errorMsg={registerErrors.name}
-              inputHandler={(e) => setUserName(e.target.value)}
+              inputName='Email address'
+              placeholder='Email address'
+              inputType='email'
+              iconType='mail'
+              errorMsg={registerErrors.email}
+              inputHandler={(e) => setUserEmail(e.target.value)}
+              name='email'
             />
-          )}
 
-          <InputComponent
-            inputName='Email address'
-            placeholder='Email address'
-            inputType='email'
-            iconType='mail'
-            errorMsg={registerErrors.email}
-            inputHandler={(e) => setUserEmail(e.target.value)}
-          />
-
-          <InputComponent
-            inputName='Password'
-            placeholder='Enter password'
-            inputType='password'
-            iconType='lock'
-            errorMsg={registerErrors.password}
-            inputHandler={(e) => setUserPassword(e.target.value)}
-          />
-          {showJoin && (
             <InputComponent
-              inputName='Confirm password'
-              placeholder='Confirm password'
+              inputName='Password'
+              placeholder='Enter password'
               inputType='password'
               iconType='lock'
-              errorMsg={registerErrors.confirmPassword}
-              inputHandler={(e) => setConfirmPassword(e.target.value)}
+              errorMsg={registerErrors.password}
+              inputHandler={(e) => setUserPassword(e.target.value)}
             />
-          )}
+            {showJoin && (
+              <InputComponent
+                inputName='Confirm password'
+                placeholder='Confirm password'
+                inputType='password'
+                iconType='lock'
+                errorMsg={registerErrors.confirmPassword}
+                inputHandler={(e) => setConfirmPassword(e.target.value)}
+              />
+            )}
 
-          {showJoin && (
-            <div className='AddPhotoParent'>
-              <div className='AddPhotoContainer'>
-                <div
-                  className='AddPhoto'
-                  style={{
-                    backgroundImage: `url(${photoImg ? photoImg : null})`,
-                  }}
-                >
-                  <i className='material-icons'>photo_camera</i>
+            {showJoin && (
+              <div className='AddPhotoParent'>
+                <div className='AddPhotoContainer'>
+                  <div
+                    className='AddPhoto'
+                    style={{
+                      backgroundImage: `url(${photoImg ? photoImg : null})`,
+                    }}
+                  >
+                    <i className='material-icons'>photo_camera</i>
+                  </div>
+                  <div className='PhotoLabel'>
+                    <label>
+                      <input
+                        type='file'
+                        id=''
+                        style={{ visibility: 'hidden' }}
+                        onChange={inputFileHandler}
+                      />
+                      Add Photo
+                    </label>
+                  </div>
                 </div>
-                <div className='PhotoLabel'>
-                  <label>
-                    <input
-                      type='file'
-                      id=''
-                      style={{ visibility: 'hidden' }}
-                      onChange={inputFileHandler}
-                    />
-                    Add Photo
-                  </label>
-                </div>
+                <small className='ErrorMsg'>
+                  {registerErrors.imageUpload
+                    ? registerErrors.imageUpload
+                    : null}
+                </small>
               </div>
-              <small className='ErrorMsg'>
-                {registerErrors.imageUpload ? registerErrors.imageUpload : null}
-              </small>
-            </div>
-          )}
+            )}
 
-          <div className='ButtonContainer'>
-            <button onClick={authBtnHandler} ref={authBtnRef}>
-              log in
-            </button>
-          </div>
+            <div className='ButtonContainer'>
+              <button onClick={authBtnHandler} ref={authBtnRef}>
+                log in
+              </button>
+            </div>
+          </form>
 
           <div className='SocialLoginContainer'>
             <p>or continue with these social profile</p>

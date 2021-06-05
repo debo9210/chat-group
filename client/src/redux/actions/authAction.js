@@ -4,7 +4,6 @@ import {
   CREATE_USER_SUCCESS,
   GET_ERRORS,
   SET_CURRENT_USER,
-  SOCIAL_USER,
 } from '../constants';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
@@ -66,12 +65,12 @@ export const loginUser = (userData) => (dispatch) => {
     });
 };
 
-export const socialConnection = () => (dispatch) => {
-  dispatch({
-    type: SOCIAL_USER,
-    payload: 'not connected',
-  });
-};
+// export const socialConnection = () => (dispatch) => {
+//   dispatch({
+//     type: SOCIAL_USER,
+//     payload: 'not connected',
+//   });
+// };
 
 export const socialLogin = () => (dispatch) => {
   const expTime = new Date();
@@ -90,6 +89,8 @@ export const socialLogin = () => (dispatch) => {
         email: res.data.user.email,
         socialName: res.data.user.socialName,
         profilePhoto: res.data.user.profileImage,
+        onlineStatus: res.data.user.onlineStatus,
+        channelJoined: res.data.user.channelJoined,
         iat: Date.now(),
         exp: Date.parse(expTime),
       };
@@ -112,23 +113,23 @@ export const socialLogin = () => (dispatch) => {
 };
 
 // log out user
-export const logoutUser = (socialUser) => (dispatch) => {
-  if (!socialUser) {
-    //remove token from local storage
-    localStorage.removeItem('jwtToken');
+export const logoutUser = (id) => (dispatch) => {
+  axios.post(`/api/users/update-online-status/${id}`);
+  // remove token from local storage
+  localStorage.removeItem('jwtToken');
+  //remove auth header for future request
+  setAuthToken(false);
+  //set current user to {} which will set isAuthenticated to false
+  dispatch(setCurrentUser({}));
+};
 
-    //remove auth header for future request
-    setAuthToken(false);
-
-    //set current user to {} which will set isAuthenticated to false
-    dispatch(setCurrentUser({}));
-  } else {
-    axios.delete('/auth/social-logout');
-    localStorage.removeItem('socialAccessToken');
-    localStorage.removeItem('socialUserDetails');
-    setAuthToken(false);
-    dispatch(setCurrentUser({}));
-  }
+export const logoutSocialUser = (id) => (dispatch) => {
+  axios.post(`/api/users/update-online-status/${id}`);
+  axios.delete('/auth/social-logout');
+  localStorage.removeItem('socialAccessToken');
+  localStorage.removeItem('socialUserDetails');
+  setAuthToken(false);
+  dispatch(setCurrentUser({}));
 };
 
 // set logged in user

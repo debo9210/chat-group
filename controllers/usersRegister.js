@@ -54,6 +54,7 @@ const registerUser = (req, res) => {
           password: req.body.password,
           profileImage: profileImage,
           channelJoined: ['welcome'],
+          onlineStatus: false,
         });
 
         // hash user password and save to database

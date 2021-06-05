@@ -45,7 +45,12 @@ function App() {
     <div className='App'>
       <Router>
         <Route path='/' exact component={AuthComponent} />
-        <Route path='/chat-portal' exact component={ChatPortal} />
+        <Route
+          // path='/chat-portal'
+          path='/chat-portal/:channelName'
+          exact
+          component={ChatPortal}
+        />
       </Router>
     </div>
   );

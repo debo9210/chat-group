@@ -1,102 +1,253 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { logoutUser, socialLogin } from '../redux/actions/authAction';
+import {
+  clearErrors,
+  logoutUser,
+  socialLogin,
+  logoutSocialUser,
+} from '../redux/actions/authAction';
 import {
   joinChannel,
   getChannelMembers,
-} from '../redux/actions/joinChannelAction';
+  createChannel,
+  getChannels,
+} from '../redux/actions/channelAction';
+// eslint-disable-next-line
+import { saveChatMessages } from '../redux/actions/chatMessagesAction';
+// eslint-disable-next-line
 import noPhoto from '../svg/noProfilePhoto.png';
+import ChannelComponent from './ChannelComponent';
+import ChatDisplayComponent from './ChatDisplayComponent';
 // eslint-disable-next-line
 import Loader from './Loader';
 import CreateChannel from './CreateChannelComponent';
 import '../css/chatPortal.css';
+import { RESET_CREATE_CHANNEL, SOCIAL_USER } from '../redux/constants';
+// eslint-disable-next-line
+import moment from 'moment';
+import { socket } from '../utils/socketConnection';
 
 const ChatPortal = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [channelNames] = useState([
-    'front-end developers',
-    'random',
-    'back-end',
-    'cats and dogs',
-    'welcome',
-  ]);
   const [allChannels, setAllChannels] = useState(true);
-  const [channelsDetails, setChannelDetails] = useState(false);
-  const [channelName, setChannelName] = useState('');
+  const [channelsDetails, setChannelsDetails] = useState(false);
+  const [channelName, setChannelName] = useState('WELCOME');
+  const [channelDesc, setChannelDesc] = useState('');
+  const [createChannelName, setCreateChannelName] = useState('');
+  const [newMessage, setNewMessage] = useState('');
+
+  const [msgObj, setMsgObj] = useState({});
+
+  // const [saveMsgs, setSaveMsgs] = useState(true);
 
   const { user, isAuthenticated } = useSelector((state) => state.currentUser);
 
-  // eslint-disable-next-line
-  const { members, loading } = useSelector((state) => state.channelMembers);
+  const { allChannels: ALL_CHANNELS } = useSelector(
+    (state) => state.getChannels
+  );
+
+  const { members } = useSelector((state) => state.channelMembers);
 
   const socialConnect = useSelector((state) => state.socialConnect);
 
-  // console.log(members);
-  // console.log(channelMembers);
+  const createChannelErrors = useSelector((state) => state.errorsObj);
+
+  const { success } = useSelector((state) => state.createChannel);
+
+  // console.log(loading, success);
 
   const userMenuRef = useRef(null);
   const createChannelRef = useRef(null);
   const chatPortalRef = useRef(null);
+  const createChannelInputRef = useRef(null);
+  const createChannelTextAreaRef = useRef(null);
+  const newMsgRef = useRef(null);
+  const chatPanelRef = useRef(null);
+
+  let channelAbout;
+  if (ALL_CHANNELS) {
+    channelAbout = ALL_CHANNELS.filter((channel) => {
+      return channel.channelName.toLowerCase() === channelName.toLowerCase();
+    }).map((channel, i) => (
+      <div key={i}>
+        <h4 className='ChannelNameHeading'>{channel.channelName}</h4>
+        <p className='ChannelAbout'>{channel.channelDesc}</p>
+      </div>
+    ));
+  }
 
   const logoutUserHandler = () => {
     if (user.socialName) {
-      dispatch(logoutUser(user.socialName));
+      dispatch(logoutSocialUser(user.id));
     } else {
-      dispatch(logoutUser());
+      dispatch(logoutUser(user.id));
     }
 
     history.push('/');
   };
 
   const openMenuHandler = (e) => {
+    const userMenu = document.querySelector('.UserMenu');
     if (e.target.textContent === 'keyboard_arrow_down') {
       e.target.textContent = 'keyboard_arrow_up';
       userMenuRef.current.style.display = 'block';
+      userMenu.style.display = 'block';
     } else {
       e.target.textContent = 'keyboard_arrow_down';
       userMenuRef.current.style.display = 'none';
+      userMenu.style.display = 'none';
     }
   };
 
   const showChannelHandler = (e) => {
-    let channelName = e.target.childNodes[1].textContent;
+    // if(e.target.childNodes[1].textContent === channelName) return
+    // setSaveMsgs(true);
+    let channelName = e.target.childNodes[0].textContent;
     setChannelName(channelName);
     setAllChannels(false);
-    setChannelDetails(true);
+    setChannelsDetails(true);
 
     const userDetails = {
       id: user.id,
       channelName: channelName,
     };
-    dispatch(joinChannel(userDetails));
+
+    const JOIN_CHANNEL = user.channelJoined.find(
+      (joined) => joined === channelName.toLowerCase()
+    );
+
+    if (JOIN_CHANNEL === undefined) {
+      dispatch(joinChannel(userDetails));
+    }
 
     setTimeout(() => {
       dispatch(getChannelMembers());
     }, 2000);
+    history.push(`/chat-portal/${channelName.toLowerCase()}`);
+    // socket.disconnect();
   };
 
   const allChannelsHandler = () => {
     setAllChannels(true);
-    setChannelDetails(false);
+    setChannelsDetails(false);
   };
 
-  const createChannelHandler = () => {
+  const showCreateChannel = () => {
     createChannelRef.current.style.display = 'block';
     chatPortalRef.current.style.opacity = '0.5';
   };
 
   document.body.addEventListener('click', (e) => {
-    if (e.target.className === 'ChatDisplayContainer') {
+    // console.log(e.target.className);
+    if (
+      e.target.className === 'ChatDisplayContainer' ||
+      e.target.className === 'ChatPanelContainer' ||
+      e.target.className === 'ChannelDetails' ||
+      e.target.className === 'UserMessageContainer' ||
+      e.target.className === 'Month' ||
+      e.target.className === 'ChatMsg' ||
+      e.target.className === 'ChatMonth' ||
+      e.target.className === 'UserMessage'
+    ) {
+      // console.log('yea');
       createChannelRef.current.style.display = 'none';
       chatPortalRef.current.style.opacity = '1';
     }
+
+    if (createChannelErrors.channelName || createChannelErrors.channelDesc) {
+      dispatch(clearErrors());
+    }
   });
 
+  const inputValueHandler = (e) => {
+    setCreateChannelName(e.target.value);
+  };
+
+  const textAreaValueHandler = (e) => {
+    setChannelDesc(e.target.value);
+  };
+
+  const createChannelHandler = (e) => {
+    const channelDetails = {
+      channelName: createChannelName,
+      channelDesc,
+      userID: user.id,
+    };
+    dispatch(createChannel(channelDetails));
+
+    setTimeout(() => {
+      dispatch(getChannels());
+    }, 2000);
+  };
+
+  const newMessageHandler = (e) => {
+    setNewMessage(e.target.value);
+  };
+
+  const sendMsgHandler = (e) => {
+    // console.log(newMessage);
+    e.preventDefault();
+    newMsgRef.current.value = '';
+
+    // emmiting chat msg to server
+    if (socket) {
+      socket.emit('chatMessage', newMessage);
+    }
+    newMsgRef.current.focus();
+    // setSaveMsgs(true);
+    // document.querySelector('.ChatPanelContainer').scrollTop =
+    //   document.querySelector('.ChatPanelContainer').scrollHeight;
+  };
+
   useEffect(() => {
-    // dispatch(getChannelMembers());
+    setTimeout(() => {
+      if (success) {
+        createChannelRef.current.style.display = 'none';
+        chatPortalRef.current.style.opacity = '1';
+        createChannelInputRef.current.value = '';
+        createChannelTextAreaRef.current.value = '';
+        setCreateChannelName('');
+        setChannelDesc('');
+        dispatch({ type: RESET_CREATE_CHANNEL });
+      }
+    }, 2000);
+  }, [dispatch, success]);
+
+  useEffect(() => {
+    socket.on('message', (message) => {
+      // setSaveMsgs(true);
+      // console.log(message);
+      // setSaveMsgs(true);
+      setMsgObj(message);
+
+      // if (Object.keys(message).length !== 0) {
+      //   dispatch(
+      //     saveChatMessages(
+      //       history.location.pathname.split('/')[2].toUpperCase(),
+      //       message
+      //     )
+      //   );
+      // }
+
+      setMsgObj({});
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.emit('joinRoom', {
+      username: user.name,
+      channelName: history.location.pathname.split('/')[2],
+      // channelName: channelName,
+      userPhoto: user.profilePhoto,
+    });
+  }, [channelName, user, history]);
+
+  useEffect(() => {
+    setChannelName('WELCOME');
+    dispatch(getChannelMembers());
 
     if (!isAuthenticated) {
       history.push('/');
@@ -105,153 +256,72 @@ const ChatPortal = () => {
     if (socialConnect.status === 'connected') {
       dispatch(socialLogin());
     }
-  }, [dispatch, socialConnect, history, isAuthenticated]);
+
+    if (isAuthenticated) {
+      if (window.location.reload) {
+        history.push(`/chat-portal/welcome`);
+      }
+    }
+
+    if (user.socialName && isAuthenticated && window.location.reload) {
+      dispatch({
+        type: SOCIAL_USER,
+        payload: 'connected',
+      });
+    }
+
+    dispatch(getChannels());
+  }, [dispatch, socialConnect, history, isAuthenticated, user]);
 
   return (
     <>
       <div className='ChatPortalContainer' ref={chatPortalRef}>
-        <div className='ChannelsContainer'>
-          {allChannels && (
-            <>
-              <div className='ChannelsHeadingContainer'>
-                <h3 className='ChannelsHeading'>channels</h3>
-                <i
-                  className='material-icons AddIcon'
-                  title='create channel'
-                  onClick={createChannelHandler}
-                >
-                  add
-                </i>
-              </div>
+        <ChannelComponent
+          allChannels={allChannels}
+          showCreateChannel={showCreateChannel}
+          ALL_CHANNELS={ALL_CHANNELS}
+          showChannelHandler={showChannelHandler}
+          channelsDetails={channelsDetails}
+          allChannelsHandler={allChannelsHandler}
+          channelAbout={channelAbout}
+          members={members}
+          channelName={channelName}
+          userMenuRef={userMenuRef}
+          logoutUserHandler={logoutUserHandler}
+          user={user}
+          openMenuHandler={openMenuHandler}
+        />
 
-              <div className='ChannelDetailsContainer'>
-                <div className='SearchInputGroup'>
-                  <i className='material-icons'>search</i>
-                  <input type='text' placeholder='search' />
-                </div>
-
-                <div className='ChannelDetails'>
-                  <ul>
-                    {channelNames.map((name, i) => (
-                      <li key={i} onClick={showChannelHandler}>
-                        <div className='NameAbbr'>
-                          <span>
-                            {name.split(',')[0].split(' ')[0].split('')[0]}
-                          </span>
-                          <span>
-                            {name.split(',')[0].split(' ')[1]
-                              ? name.split(',')[0].split(' ')[1].split('')[0]
-                              : null}
-                          </span>
-                        </div>
-                        {name.toUpperCase()}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </>
-          )}
-
-          {channelsDetails && (
-            <>
-              <div className='ChannelsHeadingContainer AllChannelsContainer'>
-                <i
-                  className='material-icons ArrowBackIcon'
-                  onClick={allChannelsHandler}
-                >
-                  arrow_back_ios
-                </i>
-                <h3 className='ChannelsHeading AllChannelHeading'>
-                  All channels
-                </h3>
-              </div>
-
-              <div className='ChannelDetailsContainer'>
-                <h4 className='ChannelNameHeading'>{channelName}</h4>
-                <p className='ChannelAbout'>
-                  Pellentesque sagittis elit enim, sit amet ultrices tellus
-                  accumsan quis. In gravida mollis purus, at interdum arcu
-                  tempor non
-                </p>
-                <h4 className='ChannelNameHeading'>Members</h4>
-
-                {/* {!loading && (
-                
-              )} */}
-                <div className='ChannelMembers'>
-                  {/* {loading && <Loader />} */}
-                  {members
-                    ? members
-                        .filter((member) => {
-                          return member.channelJoined.includes(
-                            channelName.toLowerCase()
-                          );
-                        })
-                        .map((member, i) => (
-                          <div key={i} className='Members'>
-                            <div
-                              className='MemberPhoto'
-                              style={{
-                                backgroundImage: `url(${member.profileImage})`,
-                              }}
-                            ></div>
-                            <p className='MemberName UserName'>{member.name}</p>
-                          </div>
-                        ))
-                    : null}
-                </div>
-              </div>
-            </>
-          )}
-
-          <div className='UserMenu' ref={userMenuRef}>
-            <div className='MenuOption'>
-              <i className='material-icons'>account_circle</i>
-              <p className='OptionType'>my profile</p>
-            </div>
-
-            <div className='MenuOption'>
-              <i className='material-icons'>terrain</i>
-              <p className='OptionType'>tweeter</p>
-            </div>
-
-            <hr />
-
-            <div className='MenuOption MenuLogout'>
-              <i className='material-icons'>exit_to_app</i>
-              <p className='OptionType' onClick={logoutUserHandler}>
-                logout
-              </p>
-            </div>
-          </div>
-
-          <div className='UserDisplayContainer'>
-            <div
-              className='ProfilePhoto'
-              style={{
-                backgroundImage: `url(${
-                  !user.profilePhoto || user.profilePhoto === null
-                    ? noPhoto
-                    : user.profilePhoto
-                })`,
-              }}
-            ></div>
-            <p className='UserName'>{user.name}</p>
-            <i
-              className='material-icons ArrowDownIcon'
-              onClick={openMenuHandler}
-            >
-              keyboard_arrow_down
-            </i>
-          </div>
-        </div>
-
-        <div className='ChatDisplayContainer'>
-          <h1>Chat Display</h1>
-        </div>
+        <ChatDisplayComponent
+          channelName={channelName}
+          newMessageHandler={newMessageHandler}
+          sendMsgHandler={sendMsgHandler}
+          newMsgRef={newMsgRef}
+          channels={ALL_CHANNELS}
+          chatPanelRef={chatPanelRef}
+          msgObj={msgObj}
+          allChannels={allChannels}
+          channelsDetails={channelsDetails}
+          showChannelHandler={showChannelHandler}
+          allChannelsHandler={allChannelsHandler}
+          channelAbout={channelAbout}
+          members={members}
+          userMenuRef={userMenuRef}
+          logoutUserHandler={logoutUserHandler}
+          user={user}
+          openMenuHandler={openMenuHandler}
+          showCreateChannel={showCreateChannel}
+        />
       </div>
-      <CreateChannel createChannelRef={createChannelRef} />
+      <CreateChannel
+        createChannelRef={createChannelRef}
+        createChannel={createChannelHandler}
+        createChannelErr={createChannelErrors}
+        inputValueHandler={inputValueHandler}
+        textAreaValueHandler={textAreaValueHandler}
+        createChannelInputRef={createChannelInputRef}
+        createChannelTextAreaRef={createChannelTextAreaRef}
+      />
     </>
   );
 };

@@ -30,7 +30,10 @@ export const registerUserReducer = (state = successState, action) => {
   }
 };
 
-export const socialLoginReducer = (state = { status: 'connected' }, action) => {
+export const socialLoginReducer = (
+  state = { status: 'not connected' },
+  action
+) => {
   switch (action.type) {
     case SOCIAL_USER:
       return {
