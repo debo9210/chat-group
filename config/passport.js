@@ -20,14 +20,14 @@ if (process.env.NODE_ENV === 'production') {
   googleCred = {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'https://debo9210-auth-app.herokuapp.com/auth/google/callback',
+    callbackURL: 'https://debo9210-chat-app.herokuapp.com/auth/google/callback',
   };
 
   facebookCred = {
     clientID: process.env.FACEBOOK_CLIENT_ID,
     clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     callbackURL:
-      'https://debo9210-auth-app.herokuapp.com/auth/facebook/callback',
+      'https://debo9210-chat-app.herokuapp.com/auth/facebook/callback',
   };
 } else {
   googleCred = {

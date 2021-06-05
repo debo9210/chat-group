@@ -223,14 +223,14 @@ const ChatPortal = () => {
       // setSaveMsgs(true);
       setMsgObj(message);
 
-      // if (Object.keys(message).length !== 0) {
-      //   dispatch(
-      //     saveChatMessages(
-      //       history.location.pathname.split('/')[2].toUpperCase(),
-      //       message
-      //     )
-      //   );
-      // }
+      if (Object.keys(message).length !== 0) {
+        dispatch(
+          saveChatMessages(
+            history.location.pathname.split('/')[2].toUpperCase(),
+            message
+          )
+        );
+      }
 
       setMsgObj({});
     });

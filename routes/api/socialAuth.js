@@ -7,8 +7,9 @@ const socialSignOut = require('../../controllers/usersLogin').isSignedOut;
 
 let CLIENT_HOME_PAGE_URL, WELCOME_PAGE_URL;
 if (process.env.NODE_ENV === 'production') {
-  CLIENT_HOME_PAGE_URL = '';
-  WELCOME_PAGE_URL = '';
+  CLIENT_HOME_PAGE_URL = 'https://debo9210-chat-app.herokuapp.com/';
+  WELCOME_PAGE_URL =
+    'https://debo9210-chat-app.herokuapp.com/chat-portal/welcome';
 } else {
   CLIENT_HOME_PAGE_URL = 'http://localhost:3000';
   WELCOME_PAGE_URL = `http://localhost:3000/chat-portal/welcome`;
