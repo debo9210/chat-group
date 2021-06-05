@@ -113,7 +113,7 @@ const AuthComponent = () => {
 
     let url;
     if (process.env.NODE_ENV === 'production') {
-      url = `https://debo9210-auth-app.herokuapp.com/auth/${socialName}`;
+      url = `https://debo9210-chat-app.herokuapp.com/auth/${socialName}`;
     } else {
       url = `http://localhost:5000/auth/${socialName}`;
     }
