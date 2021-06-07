@@ -1,12 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import {
-  clearErrors,
-  logoutUser,
-  socialLogin,
-  logoutSocialUser,
-} from '../redux/actions/authAction';
+import { clearErrors, logoutUser } from '../redux/actions/authAction';
 import {
   joinChannel,
   getChannelMembers,
@@ -23,7 +18,7 @@ import ChatDisplayComponent from './ChatDisplayComponent';
 import Loader from './Loader';
 import CreateChannel from './CreateChannelComponent';
 import '../css/chatPortal.css';
-import { RESET_CREATE_CHANNEL, SOCIAL_USER } from '../redux/constants';
+import { RESET_CREATE_CHANNEL } from '../redux/constants';
 // eslint-disable-next-line
 import moment from 'moment';
 import { socket } from '../utils/socketConnection';
@@ -80,12 +75,7 @@ const ChatPortal = () => {
   }
 
   const logoutUserHandler = () => {
-    if (user.socialName) {
-      dispatch(logoutSocialUser(user.id));
-    } else {
-      dispatch(logoutUser(user.id));
-    }
-
+    dispatch(logoutUser(user.id));
     history.push('/');
   };
 
@@ -253,21 +243,10 @@ const ChatPortal = () => {
       history.push('/');
     }
 
-    if (socialConnect.status === 'connected') {
-      dispatch(socialLogin());
-    }
-
     if (isAuthenticated) {
       if (window.location.reload) {
         history.push(`/chat-portal/welcome`);
       }
-    }
-
-    if (user.socialName && isAuthenticated && window.location.reload) {
-      dispatch({
-        type: SOCIAL_USER,
-        payload: 'connected',
-      });
     }
 
     dispatch(getChannels());

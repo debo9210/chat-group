@@ -2,20 +2,12 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import InputComponent from './InputComponent';
-import GoogleLogo from '../svg/Google.svg';
-import FacebookLogo from '../svg/Facebook.svg';
-// eslint-disable-next-line
-import TwitterLogo from '../svg/Twitter.svg';
-// eslint-disable-next-line
-import GithubLogo from '../svg/Github.svg';
 import { registerUser, loginUser } from '../redux/actions/authAction';
-import { CREATE_USER_SUCCESS, SOCIAL_USER } from '../redux/constants';
+import { CREATE_USER_SUCCESS } from '../redux/constants';
 
 const AuthComponent = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const [socialLogo] = useState([GoogleLogo, FacebookLogo]);
 
   const [showJoin, setShowJoin] = useState(false);
   const [photoImg, setPhotoImg] = useState('');
@@ -89,42 +81,8 @@ const AuthComponent = () => {
     };
 
     if (e.target.textContent === 'log in') {
-      // dispatch(socialConnection());
-
-      // dispatch({
-      //   type: SOCIAL_USER,
-      //   payload: 'not connected',
-      // });
       dispatch(loginUser(userData));
     }
-  };
-
-  const socialLoginHandler = (e) => {
-    dispatch({
-      type: SOCIAL_USER,
-      payload: 'connected',
-    });
-
-    const socialName = e.target.alt.split('/')[3].split('.')[0].toLowerCase();
-    const width = 600,
-      height = 600;
-    const left = window.innerWidth / 2 - width / 2;
-    const top = window.innerHeight / 2 - height / 2;
-
-    let url;
-    if (process.env.NODE_ENV === 'production') {
-      url = `https://debo9210-chat-app.herokuapp.com/auth/${socialName}`;
-    } else {
-      url = `http://localhost:5000/auth/${socialName}`;
-    }
-
-    return window.open(
-      url,
-      '_self',
-      `toolbar=no, location=no, directories=no, status=no, menubar=no,
-        scrollbars=no, resizable=no, copyhistory=no, width=${width},
-        height=${height}, top=${top}, left=${left}`
-    );
   };
 
   useEffect(() => {
@@ -236,21 +194,6 @@ const AuthComponent = () => {
               </button>
             </div>
           </form>
-
-          <div className='SocialLoginContainer'>
-            <p>or continue with these social profile</p>
-
-            <div className='SocialLogin'>
-              {socialLogo.map((logo, i) => (
-                <img
-                  key={i}
-                  src={logo}
-                  alt={logo}
-                  onClick={socialLoginHandler}
-                />
-              ))}
-            </div>
-          </div>
 
           <div className='LoginSwitchContainer'>
             <p ref={memberRef}>

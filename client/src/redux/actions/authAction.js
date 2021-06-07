@@ -72,46 +72,6 @@ export const loginUser = (userData) => (dispatch) => {
 //   });
 // };
 
-export const socialLogin = () => (dispatch) => {
-  const expTime = new Date();
-  expTime.setHours(expTime.getHours() + 6);
-  axios
-    .get('/auth/social-login')
-    .then((res) => {
-      localStorage.setItem(
-        'socialAccessToken',
-        JSON.stringify(`Bearer ${res.data.accessToken}`)
-      );
-
-      const socialUserDetails = {
-        id: res.data.user._id,
-        name: res.data.user.name,
-        email: res.data.user.email,
-        socialName: res.data.user.socialName,
-        profilePhoto: res.data.user.profileImage,
-        onlineStatus: res.data.user.onlineStatus,
-        channelJoined: res.data.user.channelJoined,
-        iat: Date.now(),
-        exp: Date.parse(expTime),
-      };
-
-      localStorage.setItem(
-        'socialUserDetails',
-        JSON.stringify(socialUserDetails)
-      );
-
-      setAuthToken(res.data.accessToken);
-
-      dispatch(setCurrentUser(socialUserDetails));
-    })
-    .catch((err) =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data,
-      })
-    );
-};
-
 // log out user
 export const logoutUser = (id) => (dispatch) => {
   axios.post(`/api/users/update-online-status/${id}`);
@@ -120,15 +80,6 @@ export const logoutUser = (id) => (dispatch) => {
   //remove auth header for future request
   setAuthToken(false);
   //set current user to {} which will set isAuthenticated to false
-  dispatch(setCurrentUser({}));
-};
-
-export const logoutSocialUser = (id) => (dispatch) => {
-  axios.post(`/api/users/update-online-status/${id}`);
-  axios.delete('/auth/social-logout');
-  localStorage.removeItem('socialAccessToken');
-  localStorage.removeItem('socialUserDetails');
-  setAuthToken(false);
   dispatch(setCurrentUser({}));
 };
 

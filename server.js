@@ -9,7 +9,7 @@ const cors = require('cors');
 const path = require('path');
 
 const usersRoutes = require('./routes/api/users');
-const socialAuthRoutes = require('./routes/api/socialAuth');
+// const socialAuthRoutes = require('./routes/api/socialAuth');
 const chatMessageRoutes = require('./routes/api/chatMessages');
 const imageUpload = require('./utils/imageUpload').router;
 
@@ -81,7 +81,6 @@ require('./config/passport')(passport);
 
 // use routes
 app.use('/api/users', usersRoutes);
-app.use('/auth', socialAuthRoutes);
 app.use('/api/chat-message', chatMessageRoutes);
 app.use('/user/profile-image', imageUpload);
 

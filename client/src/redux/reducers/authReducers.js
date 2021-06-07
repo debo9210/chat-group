@@ -2,7 +2,6 @@ import {
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
   SET_CURRENT_USER,
-  SOCIAL_USER,
 } from '../constants';
 import { isEmpty } from '../../validation/isEmpty';
 
@@ -24,21 +23,6 @@ export const registerUserReducer = (state = successState, action) => {
         ...state,
         loading: false,
         success: action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export const socialLoginReducer = (
-  state = { status: 'not connected' },
-  action
-) => {
-  switch (action.type) {
-    case SOCIAL_USER:
-      return {
-        ...state,
-        status: action.payload,
       };
     default:
       return state;

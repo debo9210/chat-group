@@ -83,32 +83,8 @@ const currentUser = (req, res) => {
   });
 };
 
-// social sign in
-const isSignedIn = async (req, res, next) => {
-  // console.log(req.user);
-  if (req.user) {
-    const user = await User.findOne({ socialID: req.user.id });
-    req.user = user;
-    const userDetails = {
-      user: req.user,
-      accessToken: req.session.accessToken,
-    };
-    res.status(200).json(userDetails);
-  }
-
-  next();
-};
-
-//social sign out
-const isSignedOut = (req, res) => {
-  req.session.destroy();
-  req.logOut();
-};
-
 module.exports = {
   loginUser,
   currentUser,
-  isSignedIn,
-  isSignedOut,
   updateOnlineStatus,
 };

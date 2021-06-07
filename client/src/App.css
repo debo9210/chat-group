@@ -217,33 +217,6 @@
   /* width: 285px; */
 }
 
-.SocialLoginContainer {
-  /* border: 1px solid orange; */
-  width: 50%;
-  margin: 0 auto;
-}
-
-.SocialLoginContainer p {
-  font-size: 12px;
-  color: #828282;
-  margin: 0;
-}
-
-.SocialLogin {
-  /* border: 1px solid cyan; */
-  margin: 15px auto 30px auto;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 55%;
-}
-
-.SocialLogin img {
-  width: 40px;
-  cursor: pointer;
-}
-
 .CopyRightContainer {
   /* border: 1px solid green; */
   display: flex;
@@ -262,27 +235,11 @@
   .Auth {
     width: 80%;
   }
-
-  .SocialLoginContainer {
-    width: 70%;
-  }
 }
 
 /* ipad screen responsiveness */
 @media only screen and (min-width: 415px) and (max-width: 1024px) {
   .Auth {
     width: 70%;
-  }
-
-  .SocialLoginContainer {
-    width: 50%;
-  }
-
-  .SocialLoginContainer p {
-    text-align: center;
-  }
-
-  .SocialLogin {
-    width: 40%;
   }
 }
